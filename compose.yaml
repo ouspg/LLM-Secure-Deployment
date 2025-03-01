@@ -15,10 +15,10 @@ services:
     #env_file:
     #  - frontend/.env
     build:
-      context: -/frontend/
+      context: ./frontend/
       dockerfile: ./Dockerfile
-      restart: always
-      ports:
-        - 127.0.0.1:3006:3006
-      expose:
-        - 3006
+    restart: always
+    ports:
+      - 127.0.0.1:3006:3006
+    expose:
+      - 3006
