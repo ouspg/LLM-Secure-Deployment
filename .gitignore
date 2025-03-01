@@ -32,6 +32,10 @@ MANIFEST
 *.manifest
 *.spec
 
+#SSL cert
+cert.pem
+key.pem
+
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
