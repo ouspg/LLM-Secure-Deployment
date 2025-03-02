@@ -1,8 +1,30 @@
-# ProductionReadyChatbot
-For Software Project Group
+# Secure Deployment of Large Language Models
+Contains the codebase for Mikko Lempinen's Master's Thesis titled "Secure Deployment of Large Language Models"
 
+## Deployment via Docker
 
-# Local or Server LLM Setup
+## Direct deployment
+The application can be deployed directly without sandboxing it with Docker. Direct deployment was done with Ubuntu 24.04 and Python 3.12.3.
+
+In the repository root directory, create and activate a Python virtual environment:
+   - `python -m venv .venv`
+   - `source .venv/bin/activate`
+### Frontend deployment
+1. Install frontend dependencies with npm:
+   - `cd app/frontend`
+   - `npm install`
+   - `npm install -g serve`
+2. Inside the `frontend` directory, you can now build and serve the React frontend with:
+   - npm run build
+   - serve -s build -l 3006
+### Backend deployment
+1. Install backend dependencies:
+   - `pip install -r app/backend/requirements.txt`
+2. Download the Hugging Face Language Model:
+   `cd app/backend`
+   `python download_model.py`
+3. Inside the `backend` directory, you can now start the LLM-application with
+   - `python app.py`
 
 ## Requirements
 
