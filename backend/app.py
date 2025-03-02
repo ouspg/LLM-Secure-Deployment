@@ -1,7 +1,7 @@
 '''
 Backend for LLM-application with PyTorch & FastAPI.
 '''
-
+import json
 import time
 import torch
 import fastapi
@@ -22,7 +22,7 @@ app.add_middleware(
 
 print("Loading PHI-3 Mini model...")
 
-torch.random.manual_seed(0) 
+torch.random.manual_seed(0)
 model = AutoModelForCausalLM.from_pretrained(
     "microsoft/Phi-3-mini-4k-instruct",  
     device_map="auto",
@@ -34,13 +34,14 @@ tokenizer = AutoTokenizer.from_pretrained("microsoft/Phi-3-mini-4k-instruct")
 
 message = {"role": "user", "content": "How are you today! Can you tell me about cats?"},
 
+#Initialize a text gen pipeline
 pipe = pipeline(
     "text-generation", 
     model=model,
     tokenizer=tokenizer,
 )
 
-generation_args = { 
+generation_args = {
     "max_new_tokens": 500, 
     "return_full_text": False, 
     "do_sample": False, 
@@ -61,7 +62,7 @@ async def chat(request: fastapi.Request):
 
     start_time = time.time()
 
-    #response from the model
+    #Generate a model response
     message = [{"role": "user", "content": user_input}]
     output = pipe(message, **generation_args)
 
@@ -80,9 +81,9 @@ if __name__ == "__main__":
 
     #Uvicorn server settings
     #Host, port, certificate and the key
-    uvicorn.run(app, 
+    uvicorn.run(app,
                 host="0.0.0.0", #0.0.0.0 if containerized, else 127.0.0.1
                 port=8000,
-                ssl_certfile="cert.pem",  #the self signed certificate
-                ssl_keyfile="key.pem",    #the secret key
+                #ssl_certfile="cert.pem",  #the self signed certificate
+                #ssl_keyfile="key.pem",    #the secret key
     )
