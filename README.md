@@ -6,7 +6,7 @@ Contains the codebase for Mikko Lempinen's Master's Thesis titled "Secure Deploy
 ## Direct deployment
 The application can be deployed directly without sandboxing it with Docker. Direct deployment was done with Ubuntu 24.04 and Python 3.12.3.
 
-In the repository root directory, create and activate a Python virtual environment:
+In the root directory of the repository, create and activate a Python virtual environment:
    - `python -m venv .venv`
    - `source .venv/bin/activate`
 ### Frontend deployment
