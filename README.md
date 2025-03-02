@@ -21,8 +21,8 @@ In the root directory of the repository, create and activate a Python virtual en
 1. Install backend dependencies:
    - `pip install -r app/backend/requirements.txt`
 2. Download the Hugging Face Language Model:
-   `cd app/backend`
-   `python download_model.py`
+   - `cd app/backend`
+   - `python download_model.py`
 3. Inside the `backend` directory, you can now start the LLM-application with
    - `python app.py`
 
