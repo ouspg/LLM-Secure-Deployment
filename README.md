@@ -14,7 +14,7 @@ In the root directory of the repository, create and activate a Python virtual en
    - `cd app/frontend`
    - `npm install`
    - `npm install -g serve`
-2. Inside the `frontend` directory, you can now build and serve the React frontend with:
+2. Inside the `app/frontend` directory, you can now build and serve the React frontend with:
    - npm run build
    - serve -s build -l 3006
 ### Backend deployment
@@ -23,7 +23,7 @@ In the root directory of the repository, create and activate a Python virtual en
 2. Download the Hugging Face Language Model:
    - `cd app/backend`
    - `python download_model.py`
-3. Inside the `backend` directory, you can now start the LLM-application with
+3. Inside the `app/backend` directory, you can now start the LLM-application with
    - `python app.py`
 
 ## Requirements
