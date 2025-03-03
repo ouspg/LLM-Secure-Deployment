@@ -16,7 +16,9 @@ To simplify the deployment process, we will be generating a self-signed SSL cert
 enforcing TLS communications with the backend of the application that contains the LLM.
 
 We will additionally include the certificate and its private key within the Docker image, 
-which is a security risk if the plan is to allow non-restricted access to the image.
+which is a security risk if the plan is to allow non-restricted access to the image. 
+A more robust alternative would be to, for example, mount a volume containing a valid signed
+certificate onto the backend container after building it with Docker. 
 
 1. In the root directory of the repository, generate a self-signed SSL certificate:
     ```console
