@@ -69,11 +69,17 @@ source .venv/bin/activate
 `https://localhost:3006` via a browser to use the application.
 
 ### <p align="center">Backend deployment</p><a name="backend-deployment"></a>
-1. Install backend dependencies:
+1. In the root directory of the repository, install backend dependencies:
     ```console
     pip install -r app/backend/requirements.txt
     ```
-2. Download the Hugging Face Language Model:
+    
+2. Generate a self-signed SSL certificate:
+    ```console
+    openssl req -x509 -newkey rsa:4096 -keyout app/backend/key.pem -out app/backend/cert.pem -days 365 -nodes
+    ```
+    
+3. Download the Hugging Face Language Model:
     ```console
     cd app/backend
     ```
@@ -81,11 +87,11 @@ source .venv/bin/activate
     python download_model.py
     ```
 
-3. Inside the `app/backend/` directory, you can now start the LLM-application with
+5. Inside the `app/backend/` directory, you can now start the LLM-application with
     ```console
     python app.py
     ```
-4. The backend should now be running with its endpoint being on port `8000`.
+6. The backend should now be running with its endpoint being on port `8000`.
 
 
 
