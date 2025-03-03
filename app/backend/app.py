@@ -83,6 +83,6 @@ if __name__ == "__main__":
     uvicorn.run(app,
                 host="0.0.0.0", #0.0.0.0 if containerized, else 127.0.0.1
                 port=8000,
-                #ssl_certfile="cert.pem",  #the self signed certificate
-                #ssl_keyfile="key.pem",    #the secret key
+                ssl_certfile="cert.pem",  #the self signed certificate
+                ssl_keyfile="key.pem",    #the secret key
     )

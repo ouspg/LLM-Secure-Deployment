@@ -5,7 +5,7 @@ WORKDIR /backend
 
 #TLS
 RUN apt-get install -y --no-install-recommends ca-certificates
-#RUN apt-get install -y --no-install-recommends curl
+
 
 RUN useradd user
 USER user
