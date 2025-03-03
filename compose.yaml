@@ -8,8 +8,9 @@ services:
       - 127.0.0.1:8000:8000
     expose:
       - 8000
+    # Mount the backend directory into container for quick development
     #volumes:
-    #  - .:/backend
+    #  - ./app/backend:./home/user/app/backend
 
   frontend:
     build:
@@ -20,5 +21,6 @@ services:
       - 127.0.0.1:3006:3006
     expose:
       - 3006
+    # Mount the frontend directory into container for quick development
     #volumes:
-    #  - .:/frontend
+    #  - ./app/frontend:./app

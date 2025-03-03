@@ -24,7 +24,7 @@ const Chat = () => {
       return;
     }
 
-    const url = "http://127.0.0.1:8000/chat"; //with SSL (certs): https://127.0.0.1:8000/chat
+    const url = "https://127.0.0.1:8000/chat"; //with SSL (certs): https://127.0.0.1:8000/chat
     const payload = { input: userInput };
 
     //save user input log
