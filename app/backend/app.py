@@ -1,7 +1,6 @@
 '''
 Backend for LLM-application with PyTorch & FastAPI.
 '''
-import json
 import time
 import torch
 import fastapi
@@ -22,17 +21,17 @@ app.add_middleware(
 
 print("Loading PHI-3 Mini model...")
 
-torch.random.manual_seed(0)
-model = AutoModelForCausalLM.from_pretrained(
-    "microsoft/Phi-3-mini-4k-instruct",  
-    device_map="auto",
-    torch_dtype="auto",
-    trust_remote_code=True,
-)
+# torch.random.manual_seed(0)
+# model = AutoModelForCausalLM.from_pretrained(
+#     "microsoft/Phi-3-mini-4k-instruct",
+#     device_map="auto",
+#     torch_dtype="auto",
+#     trust_remote_code=True,
+# )
+# tokenizer = AutoTokenizer.from_pretrained("microsoft/Phi-3-mini-4k-instruct")
 
-tokenizer = AutoTokenizer.from_pretrained("microsoft/Phi-3-mini-4k-instruct")
-
-message = {"role": "user", "content": "How are you today! Can you tell me about cats?"},
+model = AutoModelForCausalLM.from_pretrained("models/phi-3/")
+tokenizer = AutoTokenizer.from_pretrained("models/phi-3/")
 
 #Initialize a text gen pipeline
 pipe = pipeline(

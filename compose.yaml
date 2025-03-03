@@ -1,7 +1,7 @@
 services:
   backend:
     build:
-      context: ./backend/
+      context: ./app/backend/
       dockerfile: ./Dockerfile
     restart: always
     ports:
@@ -13,7 +13,7 @@ services:
 
   frontend:
     build:
-      context: ./frontend/
+      context: ./app/frontend/
       dockerfile: ./Dockerfile
     restart: always
     ports:
@@ -21,4 +21,4 @@ services:
     expose:
       - 3006
     #volumes:
-    #  - .:/app
+    #  - .:/frontend
