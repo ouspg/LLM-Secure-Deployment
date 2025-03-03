@@ -1,101 +1,77 @@
-# Secure Deployment of Large Language Models
-Contains the codebase for Mikko Lempinen's Master's Thesis titled "Secure Deployment of Large Language Models"
+# <p align="center">Secure Deployment of Large Language Models</p>
+<p align="center">This repository contains the codebase for Mikko Lempinen's Master's Thesis titled "Secure Deployment of Large Language Models"</p>
 
-## Deployment via Docker
+## <p align="center">Table of Contents</p>
 
-## Direct deployment
+- [Deployment via Docker](#docker-deploymet)
+- [Direct deployment](#direct-deploymet)
+    - [Frontend deployment](#frontend-deployment)
+    - [Backend deployment](#backend-deployment)
+
+## <p align="center">Deployment via Docker</p><a name="docker-deployment"></a>
+
+The application was deployed with Docker version 28.0.1.
+
+In the root directory of the repository, build the Docker environment with:
+```console
+docker compose up -d
+```
+Patiently wait for the build to finish *(can take an hour)*. After the build is complete, the containers (`llm-secure-deployment-backend` and `llm-secure-deployment-frontend`) should be up and running.
+
+Navigate to `https://localhost:3006` via a browser and you can use the application.
+
+## <p align="center">Direct deployment</p><a name="direct-deployment"></a>
 The application can be deployed directly without sandboxing it with Docker. Direct deployment was done with Ubuntu 24.04 and Python 3.12.3.
 
 In the root directory of the repository, create and activate a Python virtual environment:
-   - `python -m venv .venv`
-   - `source .venv/bin/activate`
-### Frontend deployment
+```console
+python -m venv .venv
+```
+```console
+source .venv/bin/activate
+```
+
+### <p align="center">Frontend deployment</p><a name="frontend-deployment"></a>
 1. Install frontend dependencies with npm:
-   - `cd app/frontend`
-   - `npm install`
-   - `npm install -g serve`
-2. Inside the `app/frontend` directory, you can now build and serve the React frontend with:
-   - npm run build
-   - serve -s build -l 3006
-### Backend deployment
-1. Install backend dependencies:
-   - `pip install -r app/backend/requirements.txt`
-2. Download the Hugging Face Language Model:
-   - `cd app/backend`
-   - `python download_model.py`
-3. Inside the `app/backend` directory, you can now start the LLM-application with
-   - `python app.py`
-
-## Requirements
-
-### For LLM (Backend)
-1. **Python 3.9+** (Required for Python, PyTorch, and LLM Transformers)
-2. Install the necessary dependencies using pip:
-    ```bash
-    pip install fastapi uvicorn transformers
+    ```console
+    cd app/frontend
     ```
-
-3. Install the correct version of **PyTorch** for your environment. Visit the official PyTorch website for installation instructions:
-    - [PyTorch Installation](https://pytorch.org/get-started/locally/)
-
----
-
-### For Frontend
-1. Install **requests** and **certifi**:
-    ```bash
-    pip install requests certifi
-    ```
-
-2. Install **axios** for HTTP requests in the frontend:
-    ```bash
-    npm install axios
-    ```
-
----
-
-## Running the LLM and HTTPS Server/API
-
-1. Navigate to `./ProductionReadyChatbot` in your terminal.
-
-2. Run the LLM and the HTTPS server/API by executing:
-    ```bash
-    python llm.py
-    ```
-    Or:
-    ```bash
-    python3 llm.py
-    ```
-
----
-
-## Running the ChatBot Frontend
-
-1. Navigate to `./ProductionReadyChatbot/chat-frontend` in your terminal.
-
-2. Run the frontend application:
-    ```bash
-    npm start
-    ```
-
-3. If the app doesn't open in the browser automatically, go to [http://localhost:3000/](http://localhost:3000/).
-
-4. If NPM packages are missing, install them by running:
-    ```bash
+    ```console
     npm install
     ```
-
----
-
-## Running the Terminal ChatBot
-
-1. Navigate to `./ProductionReadyChatbot` in your terminal.
-
-2. Run the terminal-based chatbot:
-    ```bash
-    python ChatBot.py
+    ```console
+    npm install -g serve
     ```
 
----
+2. Inside the `app/frontend/` directory, you can now build and serve the React frontend with:
+    ```console
+    npm run build
+    ```
+    ```console
+    serve -s build -l 3006
+    ```
+3. The frontend should now be running with its endpoint being on port `3006`. Navigate to `https://localhost:3006` via a browser to use the application.
+
+### <p align="center">Backend deployment</p><a name="backend-deployment"></a>
+1. Install backend dependencies:
+    ```console
+    pip install -r app/backend/requirements.txt
+    ```
+2. Download the Hugging Face Language Model:
+    ```console
+    cd app/backend
+    ```
+    ```console
+    python download_model.py
+    ```
+
+3. Inside the `app/backend/` directory, you can now start the LLM-application with
+    ```console
+    python app.py
+    ```
+4. The backend should now be running with its endpoint being on port `8000`.
+
+
 
 ## Generating and Using SSL Certificates
 
