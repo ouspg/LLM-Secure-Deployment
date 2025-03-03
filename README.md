@@ -18,16 +18,16 @@ enforcing TLS communications with the backend of the application that contains t
 We will additionally include the certificate and its private key within the Docker image, 
 which is a security risk if the plan is to allow non-restricted access to the image.
 
-1. Generate a self-signed SSL certificate:
+1. In the root directory of the repository, generate a self-signed SSL certificate:
     ```console
     openssl req -x509 -newkey rsa:4096 -keyout app/backend/key.pem -out app/backend/cert.pem -days 365 -nodes
     ```
 
-2. In the root directory of the repository, build the Docker environment with:
+2. Build the Docker environment with:
     ```console
     docker compose up -d
     ```
-3. Patiently wait for the build to finish *(can take an hour)*. After the build is complete, the 
+3. Patiently wait for the build to finish *(can take more than an hour)*. After the build is complete, the 
 containers (`llm-secure-deployment-backend` and `llm-secure-deployment-frontend`) should be up and running.
 
 4. Navigate to `https://localhost:3006` via a browser and you can use the application.
