@@ -1,5 +1,5 @@
 # <p align="center">Secure Deployment of Large Language Models</p>
-<p align="center">This repository contains the codebase for Mikko Lempinen's Master's Thesis titled "Secure Deployment of Large Language Models"</p>
+This repository contains the codebase for Mikko Lempinen's Master's Thesis titled "Secure Deployment of Large Language Models"
 
 ## <p align="center">Table of Contents</p>
 
