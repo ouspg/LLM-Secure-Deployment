@@ -66,7 +66,7 @@ source .venv/bin/activate
     serve -s build -l 3006
     ```
 3. The frontend should now be running with its endpoint being on port `3006`. Navigate to 
-`https://localhost:3006` via a browser to use the application.
+`http://localhost:3006` via a browser to use the application.
 
 ### <p align="center">Backend deployment</p><a name="backend-deployment"></a>
 1. In the root directory of the repository, install backend dependencies:
