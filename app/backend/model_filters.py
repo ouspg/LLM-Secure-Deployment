@@ -44,11 +44,13 @@ def input_filter(prompt: str, filters: list=['all']):
         # Secrets include API tokens, Private Keys, High Entropy Strings, etc.
         scanners.append(Secrets(redact_mode=Secrets.REDACT_PARTIAL))
     elif 'language' in filters:
-        scanners.append(Language(valid_languages=['en', 'fi'])) # Only accepts English & Finnish prompts.
+        # Only accepts English & Finnish prompts.
+        scanners.append(Language(valid_languages=['en', 'fi']))
     elif 'prompt_injection' in filters:
         scanners.append(PromptInjection(threshold=0.92))
     elif 'invisible_text' in filters:
-        scanners.append(InvisibleText()) # Removes invisible Unicode characters.
+        # Removes invisible Unicode characters.
+        scanners.append(InvisibleText())
 
     # Run scanners on the prompt and return results
     filtered_prompt, results_valid, results_score = scan_prompt(scanners, prompt)
