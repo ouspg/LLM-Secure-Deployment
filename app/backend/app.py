@@ -1,12 +1,15 @@
 '''
 Backend for LLM-application with PyTorch & FastAPI.
 '''
+import traceback
 import time
-import torch
+#import torch
 import fastapi
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
+from model_download import model_download
+import model_filters
 
 app = fastapi.FastAPI()
 
@@ -20,18 +23,14 @@ app.add_middleware(
 )
 
 print("Loading PHI-3 Mini model...")
-
-# torch.random.manual_seed(0)
-# model = AutoModelForCausalLM.from_pretrained(
-#     "microsoft/Phi-3-mini-4k-instruct",
-#     device_map="auto",
-#     torch_dtype="auto",
-#     trust_remote_code=True,
-# )
-# tokenizer = AutoTokenizer.from_pretrained("microsoft/Phi-3-mini-4k-instruct")
-
-model = AutoModelForCausalLM.from_pretrained("models/phi-3/")
-tokenizer = AutoTokenizer.from_pretrained("models/phi-3/")
+try:
+    model = AutoModelForCausalLM.from_pretrained("models/phi-3/")
+    tokenizer = AutoTokenizer.from_pretrained("models/phi-3/")
+except Exception:
+    traceback.format_exc()
+    model_download("models/phi-3/", "microsoft/Phi-3-mini-4k-instruct")
+    model = AutoModelForCausalLM.from_pretrained("models/phi-3/")
+    tokenizer = AutoTokenizer.from_pretrained("models/phi-3/")
 
 #Initialize a text gen pipeline
 pipe = pipeline(
@@ -41,7 +40,7 @@ pipe = pipeline(
 )
 
 generation_args = {
-    "max_new_tokens": 500, 
+    "max_new_tokens": 500, # Maximum number of tokens to generate.
     "return_full_text": False, 
     "do_sample": False, 
 }
@@ -59,18 +58,37 @@ async def chat(request: fastapi.Request):
     if not user_input:
         return {"error": "No input provided."}
 
-    start_time = time.time()
+    # Scan & filter the user's prompt
+    filtered_prompt = model_filters.input_filter(user_input)
+    user_input = filtered_prompt["filtered_prompt"]
+    # Print filtered_results to console
+    print("---------------------------------------")
+    print(f"FILTERED PROMPT:\n")
+    for key in filtered_prompt.keys():
+        print(f"{key}: {filtered_prompt[key]}")
+    print("---------------------------------------")
 
-    #Generate a model response
+
+    generation_start_time = time.time()
+    # Generate a model response
     message = [{"role": "user", "content": user_input}]
     output = pipe(message, **generation_args)
+    generation_end_time = time.time()
 
-    end_time = time.time()
-    elapsed_time = end_time - start_time
+    # Scan & filter the model's response
+    filtered_response = model_filters.output_filter(output[0]["generated_text"], user_input)
+    # Print filtered_response to console
+    print("---------------------------------------")
+    print(f"FILTERED RESPONSE:\n")
+    for key in filtered_response.keys():
+        print(f"{key}: {filtered_response[key]}")
+    print("---------------------------------------")
+
+    generation_elapsed_time = generation_end_time - generation_start_time
 
     return {
-        "response": output[0]["generated_text"],
-        "time_taken": elapsed_time,
+        "response": filtered_response["filtered_response"],
+        "time_taken": generation_elapsed_time,
     }
 
 
