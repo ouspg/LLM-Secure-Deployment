@@ -70,6 +70,8 @@ def output_filter(output: str, filtered_prompt: str, filters: list=['all']):
     Return:
         (dict):   Dictionary containing: filtered_response, results_valid, and results_score.
     '''
+    if len(filters) > 20:
+        raise ValueError('Too many items in `filters`.')
     # Initialize scanners to use
     scanners = []
     if 'all'in filters:
