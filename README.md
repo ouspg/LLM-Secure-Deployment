@@ -93,9 +93,3 @@ source .venv/bin/activate
     ```
 6. The backend should now be running with its endpoint being on port `8000`.
 
-
-    **Option 2: Manually trust the certificate in your browser**
-    - Open [https://127.0.0.1:8000/](https://127.0.0.1:8000/) in your browser.
-    - Accept the certificate warning and manually trust it. This will allow the frontend to connect to the backend.
-
----
