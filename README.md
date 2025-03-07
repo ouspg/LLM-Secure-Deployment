@@ -94,26 +94,6 @@ source .venv/bin/activate
 6. The backend should now be running with its endpoint being on port `8000`.
 
 
-
-## Generating and Using SSL Certificates
-
-1. Navigate to `./ProductionReadyChatbot` and generate a self-signed certificate with the following command:
-
-    ```bash
-    openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
-    ```
-
-2. Save the **`cert.pem`** and **`key.pem`** files in the `./ProductionReadyChatbot` directory.
-
-3. Ensure that your system **trusts** the certificate, as self-signed certificates are not trusted by default. You can do this in one of two ways:
-
-    **Option 1: Add the certificate to root certificates (Linux/Ubuntu)**
-    - Copy the certificate to the appropriate directory:
-        ```bash
-        sudo cp cert.pem /usr/local/share/ca-certificates/cert.crt
-        sudo update-ca-certificates
-        ```
-
     **Option 2: Manually trust the certificate in your browser**
     - Open [https://127.0.0.1:8000/](https://127.0.0.1:8000/) in your browser.
     - Accept the certificate warning and manually trust it. This will allow the frontend to connect to the backend.
