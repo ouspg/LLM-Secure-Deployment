@@ -78,18 +78,10 @@ source .venv/bin/activate
     ```console
     openssl req -x509 -newkey rsa:4096 -keyout app/backend/key.pem -out app/backend/cert.pem -days 365 -nodes
     ```
-    
-3. Download the Hugging Face Language Model:
-    ```console
-    cd app/backend
-    ```
-    ```console
-    python download_model.py
-    ```
 
-5. Inside the `app/backend/` directory, you can now start the LLM-application with
+3. Inside the `app/backend/` directory, you can now start the LLM-application with
     ```console
     python app.py
     ```
-6. The backend should now be running with its endpoint being on port `8000`.
+4. The backend should now be running with its endpoint being on port `8000`.
 
