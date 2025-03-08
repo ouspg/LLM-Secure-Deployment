@@ -3,7 +3,6 @@ Backend for LLM-application with PyTorch & FastAPI.
 '''
 import traceback
 import time
-#import torch
 import fastapi
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
