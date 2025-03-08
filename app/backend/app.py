@@ -22,7 +22,7 @@ app.add_middleware(
 )
 
 print("Loading PHI-3 Mini model...")
-try:
+try: # Does this throw some exception or can transformers handle it?
     model = AutoModelForCausalLM.from_pretrained("models/phi-3/")
     tokenizer = AutoTokenizer.from_pretrained("models/phi-3/")
 except Exception:
