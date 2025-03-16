@@ -15,9 +15,6 @@ RUN npm install
 RUN npm install -g serve
 RUN npm install react-scripts@3.4.1 -g
 
-#old
-#COPY . /app/
-#new
 COPY . /app
 
 # Build production
@@ -31,7 +28,10 @@ FROM nginx:latest as prod
 
 COPY --from=build /app/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf
+COPY cert.pem /etc/nginx/ssl/cert.pem
+COPY key.pem /etc/nginx/ssl/key.pem
 
-EXPOSE 80
+#EXPOSE 80
+EXPOSE 443
 
 CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
