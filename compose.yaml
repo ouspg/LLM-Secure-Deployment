@@ -3,6 +3,12 @@ services:
     build:
       context: ./app/backend/
       dockerfile: ./Dockerfile
+    # watch:
+    #   - action: sync
+    #     path: .
+    #     target: /home/user/app
+    #     ignore:
+    #       - 
     restart: always
     ports:
       - 127.0.0.1:8000:8000
@@ -14,8 +20,14 @@ services:
       context: ./app/frontend/
       dockerfile: ./Dockerfile
     restart: always
+    # Old
+    #ports:
+    #  - 127.0.0.1:3006:3006
+    #expose:
+    #  - 3006
+    # New
     ports:
-      - 127.0.0.1:3006:3006
+      - 127.0.0.1:80:80
     expose:
-      - 3006
+      - 80
 

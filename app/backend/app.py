@@ -31,7 +31,7 @@ except Exception:
     model = AutoModelForCausalLM.from_pretrained("models/phi-3/")
     tokenizer = AutoTokenizer.from_pretrained("models/phi-3/")
 
-#Initialize a text gen pipeline
+# Initialize a text gen pipeline
 pipe = pipeline(
     "text-generation", 
     model=model,

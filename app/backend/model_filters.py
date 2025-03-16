@@ -2,8 +2,10 @@
 Input & Output filters for the model.
 '''
 from llm_guard import scan_output, scan_prompt
-from llm_guard.input_scanners import Anonymize, PromptInjection, TokenLimit, InvisibleText, Language, Secrets
+from llm_guard.input_scanners import Anonymize, PromptInjection, TokenLimit, InvisibleText, Secrets
+from llm_guard.input_scanners import Language as LanguageIn
 from llm_guard.output_scanners import Deanonymize, Sensitive
+from llm_guard.output_scanners import Language as LanguageOut
 from llm_guard.vault import Vault
 
 vault  = Vault()
@@ -27,12 +29,15 @@ def input_filter(prompt: str, filters: list=['all']):
     # Note: scanners are ran in the same order they are added to `scanners`.
     scanners = []
     if 'all' in filters:
+        # Enforces a strict token limit on user prompts.
         scanners.append(TokenLimit(limit=500))
+        # Redacts PII from user prompts (very experimental).
         scanners.append(Anonymize(vault))
         # Secrets include API tokens, Private Keys, High Entropy Strings, etc.
-        scanners.append(Secrets(redact_mode=Secrets.REDACT_PARTIAL))
-        # Only accepts English & Finnish prompts.
-        scanners.append(Language(valid_languages=['en', 'fi']))
+        scanners.append(Secrets(redact_mode="REDACT_PARTIAL"))
+        # Only accepts English prompts.
+        scanners.append(LanguageIn(valid_languages=['en']))
+        # Scans the user prompt for known Prompt Injections.
         scanners.append(PromptInjection(threshold=0.92))
         # Removes invisible Unicode characters.
         scanners.append(InvisibleText())
@@ -42,10 +47,10 @@ def input_filter(prompt: str, filters: list=['all']):
         scanners.append(Anonymize(vault))
     elif 'secrets' in filters:
         # Secrets include API tokens, Private Keys, High Entropy Strings, etc.
-        scanners.append(Secrets(redact_mode=Secrets.REDACT_PARTIAL))
+        scanners.append(Secrets(redact_mode="REDACT_PARTIAL"))
     elif 'language' in filters:
-        # Only accepts English & Finnish prompts.
-        scanners.append(Language(valid_languages=['en', 'fi']))
+        # Only accepts English prompts.
+        scanners.append(LanguageIn(valid_languages=['en']))
     elif 'prompt_injection' in filters:
         scanners.append(PromptInjection(threshold=0.92))
     elif 'invisible_text' in filters:
@@ -77,17 +82,18 @@ def output_filter(output: str, filtered_prompt: str, filters: list=['all']):
     # Initialize scanners to use
     scanners = []
     if 'all'in filters:
+        # Adds redacted PII back to model response if applicable.
         scanners.append(Deanonymize(vault))
         scanners.append(Sensitive())
-        # Only accepts responses in Finnish & English
-        scanners.append(Language(valid_languages=['en', 'fi']))
+        # Only accepts responses in English
+        scanners.append(LanguageOut(valid_languages=['en']))
     elif 'deanonymize' in filters:
         scanners.append(Deanonymize(vault))
     elif 'sensitive' in filters:
         scanners.append(Sensitive())
     elif 'language' in filters:
-        # Only accepts responses in Finnish & English
-        scanners.append(Language(valid_languages=['en', 'fi']))
+        # Only accepts responses in English
+        scanners.append(LanguageOut(valid_languages=['en']))
     # Run all on scanners on the output and return results
     filtered_response, results_valid, results_score = scan_output(scanners, filtered_prompt, output)
     return {"filtered_response": filtered_response, "results_valid": results_valid,

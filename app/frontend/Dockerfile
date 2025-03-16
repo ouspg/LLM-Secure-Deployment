@@ -11,14 +11,27 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
 COPY package-lock.json ./
 
-RUN npm install 
+RUN npm install
+RUN npm install -g serve
 RUN npm install react-scripts@3.4.1 -g
 
-COPY . /app/
+#old
+#COPY . /app/
+#new
+COPY . /app
 
 # Build production
 RUN npm run build
-RUN npm install -g serve
 
 # Start app on selected port (3006)
-CMD serve -s build -l 3006
+#CMD serve -s build -l 3006
+
+# Setup NGINX to serve the app
+FROM nginx:latest as prod
+
+COPY --from=build /app/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
+
+EXPOSE 80
+
+CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
