@@ -40,7 +40,7 @@ certificate onto the backend container after building it with Docker.
 4. Patiently wait for the build to finish *(can take more than an hour)*. After the build is complete, the 
 containers (`llm-secure-deployment-backend` and `llm-secure-deployment-frontend`) should be up and running.
 
-5. Navigate to `https://localhost:3006` via a browser and you can use the application.
+5. Navigate to `https://localhost` via a browser and you can use the application.
 
 > [!NOTE] 
 > Generation of the first response message of the chatbot may take a while as the input and output filters will be downloaded after the first user message.
