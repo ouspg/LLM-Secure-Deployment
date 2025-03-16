@@ -32,7 +32,7 @@ def input_filter(prompt: str, filters: list=['all']):
         # Enforces a strict token limit on user prompts.
         scanners.append(TokenLimit(limit=500))
         # Redacts PII from user prompts (very experimental).
-        scanners.append(Anonymize(vault))
+        #scanners.append(Anonymize(vault))
         # Secrets include API tokens, Private Keys, High Entropy Strings, etc.
         scanners.append(Secrets(redact_mode="REDACT_PARTIAL"))
         # Only accepts English prompts.
@@ -83,7 +83,7 @@ def output_filter(output: str, filtered_prompt: str, filters: list=['all']):
     scanners = []
     if 'all'in filters:
         # Adds redacted PII back to model response if applicable.
-        scanners.append(Deanonymize(vault))
+        #scanners.append(Deanonymize(vault))
         scanners.append(Sensitive())
         # Only accepts responses in English
         scanners.append(LanguageOut(valid_languages=['en']))
@@ -96,5 +96,17 @@ def output_filter(output: str, filtered_prompt: str, filters: list=['all']):
         scanners.append(LanguageOut(valid_languages=['en']))
     # Run all on scanners on the output and return results
     filtered_response, results_valid, results_score = scan_output(scanners, filtered_prompt, output)
+    filtered_response = language_score_filter(results_score["language"], filtered_response)
     return {"filtered_response": filtered_response, "results_valid": results_valid,
             "results_score": results_score}
+
+
+def language_score_filter(score, response, score_threshold=1.0):
+    """
+    If score is equal or higher than the score_threshold, returns
+    a filtered response.
+    """
+    if score >= score_threshold:
+        response = "Unfortunately, I started thinking in a foreign language and" \
+        " I am not allowed to do that. Please rephrase your question or statement."
+    return response

@@ -95,11 +95,10 @@ async def chat(request: fastapi.Request):
 if __name__ == "__main__":
     print("Starting a HTTPS server...")
 
-    #Uvicorn server settings
-    #Host, port, certificate and the key
+    # Uvicorn server settings
     uvicorn.run(app,
-                host="0.0.0.0", #0.0.0.0 if containerized, else 127.0.0.1
+                host="0.0.0.0",
                 port=8000,
-                ssl_certfile="cert.pem",  #the self signed certificate
-                ssl_keyfile="key.pem",    #the secret key
+                ssl_certfile="cert.pem",  # SSL Certificate
+                ssl_keyfile="key.pem",    # SSL Certificate Key
     )
