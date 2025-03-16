@@ -34,6 +34,9 @@ containers (`llm-secure-deployment-backend` and `llm-secure-deployment-frontend`
 
 4. Navigate to `https://localhost:3006` via a browser and you can use the application.
 
+> [!NOTE] 
+> Generation of the first response message of the chatbot may take a while as the input and output filters will be downloaded after the first user message.
+
 ## <p align="center">Direct deployment</p><a name="direct-deployment"></a>
 The application can be deployed directly without sandboxing it with Docker. Direct deployment was 
 done with Ubuntu 24.04 and Python 3.12.3.
