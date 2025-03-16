@@ -25,14 +25,22 @@ certificate onto the backend container after building it with Docker.
     openssl req -x509 -newkey rsa:4096 -keyout app/backend/key.pem -out app/backend/cert.pem -days 365 -nodes
     ```
 
-2. Build the Docker environment with:
+2. Copy the SSL certificate and its private key to `app/frontend` directory:
+    ```console
+    cp app/backend/cert.pem app/frontend/cert.pem
+    ```
+    ```console
+    cp app/backend/key.pem app/frontend/key.pem
+    ```
+
+3. Build the Docker environment with:
     ```console
     docker compose up -d
     ```
-3. Patiently wait for the build to finish *(can take more than an hour)*. After the build is complete, the 
+4. Patiently wait for the build to finish *(can take more than an hour)*. After the build is complete, the 
 containers (`llm-secure-deployment-backend` and `llm-secure-deployment-frontend`) should be up and running.
 
-4. Navigate to `https://localhost:3006` via a browser and you can use the application.
+5. Navigate to `https://localhost:3006` via a browser and you can use the application.
 
 > [!NOTE] 
 > Generation of the first response message of the chatbot may take a while as the input and output filters will be downloaded after the first user message.
