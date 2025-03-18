@@ -12,10 +12,13 @@ import model_filters
 
 app = fastapi.FastAPI()
 
+# The Backend only allows communications from these origins.
+origins = ["https://localhost"]
+
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  #will only allow the react frontend
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["POST"],
     allow_headers=["*"],
@@ -45,7 +48,7 @@ generation_args = {
 }
 
 
-#POST backend
+# POST path
 @app.post('/chat')
 async def chat(request: fastapi.Request):
     '''

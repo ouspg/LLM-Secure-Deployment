@@ -88,7 +88,10 @@ def output_filter(output: str, filtered_prompt: str, filters: list=['all']):
         # Only accepts responses in English
         scanners.append(LanguageOut(valid_languages=['en']))
     elif 'deanonymize' in filters:
-        scanners.append(Deanonymize(vault))
+        try: # Not tested what happens if Deanonymize() is used, but Anonymize() is not.
+            scanners.append(Deanonymize(vault))
+        except Exception:
+            pass
     elif 'sensitive' in filters:
         scanners.append(Sensitive())
     elif 'language' in filters:
