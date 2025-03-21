@@ -7,6 +7,9 @@ This repository contains the codebase for Mikko Lempinen's Master's Thesis title
 - [Direct deployment](#direct-deploymet)
     - [Frontend deployment](#frontend-deployment)
     - [Backend deployment](#backend-deployment)
+- [Docker Scout](#scout)
+    - [Software Bill of Materials](#sbom)
+    - [CVEs](#cves)
 
 ## <p align="center">Deployment via Docker</p><a name="docker-deployment"></a>
 
@@ -43,7 +46,11 @@ containers (`llm-secure-deployment-backend` and `llm-secure-deployment-frontend`
 5. Navigate to `https://localhost` via a browser and you can use the application.
 
 > [!NOTE] 
-> Generation of the first response message of the chatbot may take a while as the input and output filters will be downloaded after the first user message.
+> - Generation of the first response message of the chatbot may take a while as the input and output filters will be downloaded after the first user message.
+> - You can monitor the backend container's logging with the command:
+>   ```console
+>    docker logs CONTAINER_ID -f
+>    ```
 
 ## <p align="center">Direct deployment</p><a name="direct-deployment"></a>
 The application can be deployed directly without sandboxing it with Docker. Note that the proxy server is only included in the Docker deployment. Direct deployment was 
@@ -95,4 +102,31 @@ source .venv/bin/activate
     python app.py
     ```
 4. The backend should now be running with its endpoint being on port `8000`.
+
+## <p align="center">Docker Scout</p><a name="scout"></a>
+
+When the application is deployed with Docker, Docker Scout can be used to analyze the environment for known vulnerabilities and to suggest fixes to these vulnerabilities. Docker Scout can additionally be used generate a Software Bill of Materials (SBOM) of the environment on command. [These](https://medium.com/@charles.vissol/install-the-docker-scout-and-sbom-plugins-8b1744758b7e) instructions can be followed to install the required plugins for Docker CLI.
+
+
+### <p align="center">CVEs</p><a name="cves"></a>
+To analyze the built environment for vulnerabilities:
+
+1. Install [Scout](https://docs.docker.com/scout/) plugin for Docker.
+
+2. Use the following command to print the analysis to console (more instructions of usage can be found [here](https://docs.docker.com/reference/cli/docker/scout/cves/)):
+    ```console
+    docker scout cves IMAGE_ID
+    ```
+
+### <p align="center">Software Bill of Materials</p><a name="sbom"></a>
+To generate an SBOM of the built environment:
+
+1. Install [sbom](https://docs.docker.com/scout/how-tos/view-create-sboms/) plugin for Docker.
+
+2. Use the following command to generate a human readable SBOM to the console (more instrucitons of usage can be found [here](https://docs.docker.com/scout/how-tos/view-create-sboms/)):
+    ```console
+    docker scout sbom --format list IMAGE_ID
+    ```
+
+
 
