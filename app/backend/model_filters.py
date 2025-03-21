@@ -99,7 +99,13 @@ def output_filter(output: str, filtered_prompt: str, filters: list=['all']):
         scanners.append(LanguageOut(valid_languages=['en']))
     # Run all on scanners on the output and return results
     filtered_response, results_valid, results_score = scan_output(scanners, filtered_prompt, output)
-    filtered_response = language_score_filter(results_score["language"], filtered_response)
+    print("---------------------------------------")
+    print(f"FILTERED RESPONSE:\n")
+    print("filtered_response: ", filtered_response)
+    print("results_valid: ", results_valid)
+    print("results_score: ", results_score)
+    print("---------------------------------------")
+    filtered_response = language_score_filter(results_score["Language"], filtered_response)
     return {"filtered_response": filtered_response, "results_valid": results_valid,
             "results_score": results_score}
 

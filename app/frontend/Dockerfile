@@ -23,7 +23,7 @@ RUN npm run build
 # Start app on selected port (3006)
 #CMD serve -s build -l 3006
 
-# Setup NGINX to serve the app
+# Setup NGINX as a proxy server to serve the app
 FROM nginx:latest as prod
 
 COPY --from=build /app/build /usr/share/nginx/html
@@ -31,7 +31,6 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY cert.pem /etc/nginx/ssl/cert.pem
 COPY key.pem /etc/nginx/ssl/key.pem
 
-#EXPOSE 80
 EXPOSE 443
 
 CMD ["/usr/sbin/nginx", "-g", "daemon off;"]

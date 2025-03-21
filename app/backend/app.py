@@ -21,11 +21,11 @@ app.add_middleware(
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["POST"],
-    allow_headers=["*"],
+    allow_headers=["*"], # Not tested what specific headers are needed - should be restriced to only those.
 )
 
 print("Loading PHI-3 Mini model...")
-try: # Does this throw some exception or can transformers handle it?
+try: # Does this throw some exception if model is not in "models/phi3" or can transformers handle it?
     model = AutoModelForCausalLM.from_pretrained("models/phi-3/")
     tokenizer = AutoTokenizer.from_pretrained("models/phi-3/")
 except Exception:
