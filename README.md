@@ -18,7 +18,7 @@ The application was deployed with Docker version 28.0.1.
 To simplify the deployment process, we will be generating a self-signed SSL certificate for
 enforcing TLS communications with the backend of the application that contains the LLM.
 
-We will additionally include the certificate and its private key within the Docker image, 
+We will additionally include the certificate and its private key within the Docker image to ease reproducibility, 
 which is a security risk if the plan is to allow non-restricted access to the image. 
 A more robust alternative would be to, for example, mount a volume containing a valid signed
 certificate onto the backend container after building it with Docker. 
