@@ -4,7 +4,7 @@ services:
       context: ./app/backend/
       dockerfile: ./Dockerfile
     restart: always
-    image: LLM-Secure-Deployment-Backend
+    container_name: LLM-Secure-Deployment-Backend
 #    ports:
 #      - 127.0.0.1:8000:8000
 #    expose:
@@ -15,7 +15,7 @@ services:
       context: ./app/frontend/
       dockerfile: ./Dockerfile
     restart: always
-    image: LLM-Secure-Deployment-Frontend
+    container_name: LLM-Secure-Deployment-Frontend
     ports:
       - 192.168.1.45:443:443
     expose:
