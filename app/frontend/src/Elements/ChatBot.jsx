@@ -24,7 +24,7 @@ const Chat = () => {
       return;
     }
 
-    const url = "https://86.50.253.176:8000/chat";
+    const url = "https://86.50.253.176/chat";
     const payload = { input: userInput };
 
     //save user input log
