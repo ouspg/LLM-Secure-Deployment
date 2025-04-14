@@ -1,8 +1,7 @@
-#backend dockerfile
-FROM python:3.12.3-slim
+# Backend Dockerfile
 
-# is this even needed?
-#WORKDIR /backend
+
+FROM python:3.12.3-slim
 
 # For TLS
 RUN apt-get install -y --no-install-recommends ca-certificates
@@ -19,11 +18,11 @@ WORKDIR $HOME/app
 COPY --chown=user . $HOME/app
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
-# Bake model download into image build to ease reproductability. This is generally a bad practice 
-# and the download should be done separately e.g. by mounting a downloaded model onto a running container.
+# Bake model download into image build to ease reproducibility. This is generally a bad practice 
+# and the download should be done separately. E.g. by mounting a downloaded model onto a running container.
 RUN python model_download.py
 
-# Launch the backend on port 8000 on container start
+# Launch the backend on port 8000 on container start.
 CMD ["uvicorn", "app:app",\
     "--host", "0.0.0.0",\
     "--port", "8000",\

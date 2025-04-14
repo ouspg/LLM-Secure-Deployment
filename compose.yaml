@@ -5,10 +5,6 @@ services:
       dockerfile: ./Dockerfile
     restart: always
     container_name: LLM-Secure-Deployment-Backend
-#    ports:
-#      - 127.0.0.1:8000:8000
-#    expose:
-#      - 8000
 
   frontend:
     build:
@@ -17,7 +13,7 @@ services:
     restart: always
     container_name: LLM-Secure-Deployment-Frontend
     ports:
-      - 192.168.1.45:443:443
+      - 192.168.1.45:443:443 # Change the IP address here to the internal IP address of the host machine.
     expose:
       - 443
 
