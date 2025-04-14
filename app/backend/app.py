@@ -13,7 +13,7 @@ import model_filters
 app = fastapi.FastAPI()
 
 # The Backend only allows communications from these origins.
-origins = ["https://localhost"]
+origins = ["https://localhost", "https://86.50.253.176"]
 
 # Enable CORS
 app.add_middleware(
