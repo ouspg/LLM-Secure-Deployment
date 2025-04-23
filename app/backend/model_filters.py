@@ -5,14 +5,14 @@ from llm_guard import scan_output, scan_prompt
 from llm_guard.input_scanners import Anonymize, PromptInjection, TokenLimit, InvisibleText, Secrets
 from llm_guard.input_scanners import Language as LanguageIn
 from llm_guard.input_scanners.language import DEFAULT_MODEL as MODEL_LANGUAGE_IN
-from llm_guard.input_scanners.anonymize import DEFAULT_MODEL as MODEL_ANONYMIZE
+#from llm_guard.input_scanners.anonymize import DEFAULT_MODEL as MODEL_ANONYMIZE
 from llm_guard.input_scanners.prompt_injection import DEFAULT_MODEL as MODEL_PROMPT_INJECTION
 from llm_guard.input_scanners.token_limit import DEFAULT_MODEL as MODEL_TOKEN_LIMIT
 from llm_guard.input_scanners.invisible_text import DEFAULT_MODEL as MODEL_INVISIBLE_TEXT
 from llm_guard.input_scanners.secrets import DEFAULT_MODEL as MODEL_SECRETS
 from llm_guard.output_scanners import Deanonymize, Sensitive
 from llm_guard.output_scanners import Language as LanguageOut
-from llm_guard.output_scanners.deanonymize import DEFAULT_MODEL as MODEL_DEANONYMIZE
+#from llm_guard.output_scanners.deanonymize import DEFAULT_MODEL as MODEL_DEANONYMIZE
 from llm_guard.output_scanners.sensitive import DEFAULT_MODEL as MODEL_SENSITIVE
 from llm_guard.output_scanners.language import DEFAULT_MODEL as MODEL_LANGUAGE_OUT
 from llm_guard.vault import Vault
@@ -25,8 +25,8 @@ MODEL_PROMPT_INJECTION["pipeline_kwargs"]["device"] = -1
 MODEL_TOKEN_LIMIT["pipeline_kwargs"]["device"] = -1
 MODEL_INVISIBLE_TEXT["pipeline_kwargs"]["device"] = -1
 MODEL_SECRETS["pipeline_kwargs"]["device"] = -1
-MODEL_DEANONYMIZE["pipeline_kwargs"]["device"] = -1
-MODEL_ANONYMIZE["pipeline_kwargs"]["device"] = -1
+#MODEL_DEANONYMIZE["pipeline_kwargs"]["device"] = -1
+#MODEL_ANONYMIZE["pipeline_kwargs"]["device"] = -1
 MODEL_SENSITIVE["pipeline_kwargs"]["device"] = -1
 
 def input_filter(prompt: str, filters: list=['all']):
