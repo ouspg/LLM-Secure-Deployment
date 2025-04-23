@@ -73,7 +73,7 @@ source .venv/bin/activate
 
 ### <p align="center">Backend deployment</p><a name="backend-deployment"></a>
 > [!IMPORTANT] 
-> If deploying the backend and frontend on the same machine, you need to adjust the configured CORS policy in `app/backend/app.py` accordingly: change the `allow_origins=origins` parameter on **line 21** to `allow_origins=[*]` to allow requests from the same origin.
+> If deploying the backend and frontend on the same machine *(locally)*, you need to adjust the configured CORS policy in `app/backend/app.py` accordingly: change the `allow_origins=origins` parameter on **line 21** to `allow_origins=[*]` to allow requests from the same origin.
 
 1. In the root directory of the repository, install backend dependencies:
     ```console
@@ -98,7 +98,7 @@ source .venv/bin/activate
 
 
 ### <p align="center">Frontend deployment</p><a name="frontend-deployment"></a>
-1. Change the URL in `app/frontend/src/Elements/ChatBot.jsx` on **line 27** to match the URL of the backend API.
+1. Change the URL in `app/frontend/src/Elements/ChatBot.jsx` on **line 27** to match the URL of the backend API *(`https://127.0.0.1:8000/chat` by default if deploying locally)*.
 
 2. Install frontend dependencies with npm:
     ```console
@@ -119,7 +119,7 @@ source .venv/bin/activate
     serve -s build -l 3006
     ```
 4. The frontend should now be running with its endpoint being on port `3006`. Navigate to 
-`http://<YOUR_IP_ADDRESS>:3006` via a browser to use the application.
+`http://<YOUR_IP_ADDRESS>:3006` *(`http://localhost:3006` by default if deploying locally)* via a browser to use the application.
 
 
 
