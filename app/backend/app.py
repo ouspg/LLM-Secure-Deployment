@@ -24,24 +24,23 @@ app.add_middleware(
     allow_headers=["*"], # Not tested what specific headers are needed - should be restriced to only those.
 )
 
-max_memory_mapping = {0: "5GIB"} # GPU memory allocation optimization - optimized value(s) depend on your hardware.
 
 print("Loading PHI-3 Mini model...")
 try: # Does this throw some exception if model is not in "models/phi3" or can transformers handle it?
-    model = AutoModelForCausalLM.from_pretrained("models/phi-3/", max_memory=max_memory_mapping)
-    tokenizer = AutoTokenizer.from_pretrained("models/phi-3/", max_memory=max_memory_mapping)
+    model = AutoModelForCausalLM.from_pretrained("models/phi-3/")
+    tokenizer = AutoTokenizer.from_pretrained("models/phi-3/")
 except Exception:
     traceback.format_exc()
     model_download("models/phi-3/", "microsoft/Phi-3-mini-4k-instruct")
-    model = AutoModelForCausalLM.from_pretrained("models/phi-3/", max_memory=max_memory_mapping)
-    tokenizer = AutoTokenizer.from_pretrained("models/phi-3/", max_memory=max_memory_mapping)
+    model = AutoModelForCausalLM.from_pretrained("models/phi-3/")
+    tokenizer = AutoTokenizer.from_pretrained("models/phi-3/")
 
 # Initialize a text gen pipeline
 pipe = pipeline(
     "text-generation", 
     model=model,
     tokenizer=tokenizer,
-    device=0 # Cuda device ordinal, -1 for CPU
+    device=-1 # Cuda device ordinal, -1 for CPU
 )
 
 generation_args = {
