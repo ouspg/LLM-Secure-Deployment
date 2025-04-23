@@ -5,6 +5,15 @@ services:
       dockerfile: ./Dockerfile
     restart: always
     container_name: LLM-Secure-Deployment-Backend
+    networks:
+     - llm-app-network
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
 
   frontend:
     build:
@@ -12,8 +21,13 @@ services:
       dockerfile: ./Dockerfile
     restart: always
     container_name: LLM-Secure-Deployment-Frontend
+    networks:
+     - llm-app-network
     ports:
       - 192.168.1.45:443:443 # Change the IP address here to the internal IP address of the host machine.
     expose:
       - 443
+
+networks:
+  llm-app-network:
 
