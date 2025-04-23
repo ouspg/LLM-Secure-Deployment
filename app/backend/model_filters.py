@@ -4,11 +4,16 @@ Input & Output filters for the model.
 from llm_guard import scan_output, scan_prompt
 from llm_guard.input_scanners import Anonymize, PromptInjection, TokenLimit, InvisibleText, Secrets
 from llm_guard.input_scanners import Language as LanguageIn
+from llm_guard.input_scanners import DEFAULT_MODEL as DEFAULT_MODEL_IN
 from llm_guard.output_scanners import Deanonymize, Sensitive
 from llm_guard.output_scanners import Language as LanguageOut
+from llm_guard.output_scanners import DEFAULT_MODEL as DEFAULT_MODEL_OUT
 from llm_guard.vault import Vault
 
 vault  = Vault()
+
+DEFAULT_MODEL_IN["pipeline_kwargs"]["device"] = -1
+DEFAULT_MODEL_OUT["pipeline_kwargs"]["device"] = -1
 
 def input_filter(prompt: str, filters: list=['all']):
     '''
@@ -30,24 +35,24 @@ def input_filter(prompt: str, filters: list=['all']):
     scanners = []
     if 'all' in filters:
         # Enforces a strict token limit on user prompts.
-        scanners.append(TokenLimit(limit=500))
+        scanners.append(TokenLimit(limit=500, model=DEFAULT_MODEL_IN))
         # Redacts PII from user prompts (very experimental).
         #scanners.append(Anonymize(vault))
         # Secrets include API tokens, Private Keys, High Entropy Strings, etc.
-        scanners.append(Secrets(redact_mode="REDACT_PARTIAL"))
+        scanners.append(Secrets(redact_mode="REDACT_PARTIAL", model=DEFAULT_MODEL_IN))
         # Only accepts English prompts.
-        scanners.append(LanguageIn(valid_languages=['en']))
+        scanners.append(LanguageIn(valid_languages=['en'], model=DEFAULT_MODEL_IN))
         # Scans the user prompt for known Prompt Injections.
-        scanners.append(PromptInjection(threshold=0.92))
+        scanners.append(PromptInjection(threshold=0.92, model=DEFAULT_MODEL_IN))
         # Removes invisible Unicode characters.
-        scanners.append(InvisibleText())
+        scanners.append(InvisibleText(model=DEFAULT_MODEL_IN))
     elif 'token_limit' in filters:
-        scanners.append(TokenLimit(limit=500))
+        scanners.append(TokenLimit(limit=500, model=DEFAULT_MODEL_IN))
     elif 'anonymize' in filters:
-        scanners.append(Anonymize(vault))
+        scanners.append(Anonymize(vault, model=DEFAULT_MODEL_IN))
     elif 'secrets' in filters:
         # Secrets include API tokens, Private Keys, High Entropy Strings, etc.
-        scanners.append(Secrets(redact_mode="REDACT_PARTIAL"))
+        scanners.append(Secrets(redact_mode="REDACT_PARTIAL", model=DEFAULT_MODEL_IN))
     elif 'language' in filters:
         # Only accepts English prompts.
         scanners.append(LanguageIn(valid_languages=['en']))
@@ -84,9 +89,9 @@ def output_filter(output: str, filtered_prompt: str, filters: list=['all']):
     if 'all'in filters:
         # Adds redacted PII back to model response if applicable.
         #scanners.append(Deanonymize(vault))
-        scanners.append(Sensitive())
+        scanners.append(Sensitive(model=DEFAULT_MODEL_OUT))
         # Only accepts responses in English
-        scanners.append(LanguageOut(valid_languages=['en']))
+        scanners.append(LanguageOut(valid_languages=['en'], model=DEFAULT_MODEL_OUT))
     elif 'deanonymize' in filters:
         try: # Not tested what happens if Deanonymize() is used, but Anonymize() is not.
             scanners.append(Deanonymize(vault))
