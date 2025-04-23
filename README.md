@@ -25,9 +25,10 @@ certificate onto the backend container after building it with Docker.
 
 > [!IMPORTANT] 
 > The application is configured to be served at 86.50.253.176. In order to deploy the application from other domains, the following variables need to be changed accordingly:
-> - `server name` variables *(two)* in `app/frontend/nginx.conf`.
+> - `server_name` variables *(two)* in `app/frontend/nginx.conf`.
 > - IP address in `compose.yaml` **line 29**.
 > - Domain in `app/frontend/src/Elements/ChatBot.jsx` **line 27**.
+> - Your domain needs to be added to the list of allowed origins in `app/frontend/nginx.conf` **line 53**
 
 1. In the root directory of the repository, generate a self-signed SSL certificate:
     ```console
@@ -47,12 +48,12 @@ certificate onto the backend container after building it with Docker.
     docker compose up -d
     ```
 4. Patiently wait for the build to finish *(can take more than an hour with slow internet connection)*. After the build is complete, the 
-containers (`llm-secure-deployment-backend` and `llm-secure-deployment-frontend`) should be up and running.
+containers (`LLM-Secure-Deployment-Frontend` and `LLM-Secure-Deployment-Backend`) should be up and running.
 
-5. Navigate to `https://<YOUR_IP_ADDRESS/DOMAIN_NAME>` via a browser and you can use the application.
+5. Navigate to `https://<YOUR_DOMAIN_NAME>` via a browser and you can use the application.
 
 > [!NOTE] 
-> - Generation of the first response message of the chatbot may take a while as the input and output filters will be downloaded after the first user message.
+> - Generation of the first response message of the chatbot may take a while as the input and output filters will be loaded after the server receives its first request after intialization.
 > - You can monitor the backend container's logging with the command:
 >   ```console
 >    docker logs CONTAINER_ID -f
