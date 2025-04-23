@@ -23,6 +23,12 @@ which is a security risk if the plan is to allow non-restricted access to the im
 A more robust alternative would be to, for example, mount a volume containing a valid signed
 certificate onto the backend container after building it with Docker. 
 
+> [!IMPORTANT] 
+> The application is configured to be served at 86.50.253.176. In order to deploy the application from other domains/IP addresses, the following variables need to be changed accordingly:
+> - `server name` variables *(two)* in `app/frontend/nginx.conf`.
+> - IP address in `compose.yaml` **line 29**.
+> - IP address/domain name in `app/frontend/src/Elements/ChatBot.jsx` **line 27**.
+
 1. In the root directory of the repository, generate a self-signed SSL certificate:
     ```console
     openssl req -x509 -newkey rsa:4096 -keyout app/backend/key.pem -out app/backend/cert.pem -days 365 -nodes
@@ -40,10 +46,10 @@ certificate onto the backend container after building it with Docker.
     ```console
     docker compose up -d
     ```
-4. Patiently wait for the build to finish *(can take more than an hour with slow internet)*. After the build is complete, the 
+4. Patiently wait for the build to finish *(can take more than an hour with slow internet connection)*. After the build is complete, the 
 containers (`llm-secure-deployment-backend` and `llm-secure-deployment-frontend`) should be up and running.
 
-5. Navigate to `https://<YOUR_IP_ADDRESS>` via a browser and you can use the application.
+5. Navigate to `https://<YOUR_IP_ADDRESS/DOMAIN_NAME>` via a browser and you can use the application.
 
 > [!NOTE] 
 > - Generation of the first response message of the chatbot may take a while as the input and output filters will be downloaded after the first user message.
