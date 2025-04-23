@@ -13,7 +13,7 @@ import model_filters
 app = fastapi.FastAPI()
 
 # The Backend only allows communications from these origins.
-origins = ["https://localhost"]
+origins = ["https://localhost", "https://86.50.253.176"]
 
 # Enable CORS
 app.add_middleware(
@@ -23,6 +23,7 @@ app.add_middleware(
     allow_methods=["POST"],
     allow_headers=["*"], # Not tested what specific headers are needed - should be restriced to only those.
 )
+
 
 print("Loading PHI-3 Mini model...")
 try: # Does this throw some exception if model is not in "models/phi3" or can transformers handle it?
@@ -39,6 +40,7 @@ pipe = pipeline(
     "text-generation", 
     model=model,
     tokenizer=tokenizer,
+    device=-1 # Cuda device ordinal, -1 for CPU
 )
 
 generation_args = {

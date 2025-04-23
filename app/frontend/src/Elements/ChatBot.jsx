@@ -23,8 +23,8 @@ const Chat = () => {
       setIsChatting(false);
       return;
     }
-
-    const url = "https://127.0.0.1:8000/chat";
+    // URL of deployed backend API 
+    const url = "https://86.50.253.176/chat"; // Change the IP Address here accordingly.
     const payload = { input: userInput };
 
     //save user input log

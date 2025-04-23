@@ -1,5 +1,7 @@
 # Frontend Dockerfile
-# official base img
+
+
+# First build the React app
 FROM node:latest as build
 
 WORKDIR /app
@@ -20,12 +22,10 @@ COPY . /app
 # Build production
 RUN npm run build
 
-# Start app on selected port (3006)
-#CMD serve -s build -l 3006
-
 # Setup NGINX as a proxy server to serve the app
 FROM nginx:latest as prod
 
+# Copy required files to the NGINX container
 COPY --from=build /app/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY cert.pem /etc/nginx/ssl/cert.pem

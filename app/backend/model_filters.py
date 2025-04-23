@@ -1,6 +1,7 @@
 '''
 Input & Output filters for the model.
 '''
+import torch
 from llm_guard import scan_output, scan_prompt
 from llm_guard.input_scanners import Anonymize, PromptInjection, TokenLimit, InvisibleText, Secrets
 from llm_guard.input_scanners import Language as LanguageIn
