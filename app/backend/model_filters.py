@@ -4,17 +4,15 @@ Input & Output filters for the model.
 from llm_guard import scan_output, scan_prompt
 from llm_guard.input_scanners import Anonymize, PromptInjection, TokenLimit, InvisibleText, Secrets
 from llm_guard.input_scanners import Language as LanguageIn
-from llm_guard.input_scanners.language import DEFAULT_MODEL as MODEL_LANGUAGE_IN
+from llm_guard.input_scanners.language import DEFAULT_MODEL as MODEL_LANGUAGE
 from llm_guard.input_scanners.prompt_injection import V2_MODEL as MODEL_PROMPT_INJECTION
 from llm_guard.output_scanners import Deanonymize, Sensitive
 from llm_guard.output_scanners import Language as LanguageOut
-from llm_guard.output_scanners.language import DEFAULT_MODEL as MODEL_LANGUAGE_OUT
 from llm_guard.vault import Vault
 
 vault  = Vault()
 
-MODEL_LANGUAGE_IN["pipeline_kwargs"]["device"] = -1
-MODEL_LANGUAGE_OUT["pipeline_kwargs"]["device"] = -1
+MODEL_LANGUAGE["pipeline_kwargs"]["device"] = -1
 MODEL_PROMPT_INJECTION["pipeline_kwargs"]["device"] = -1
 
 def input_filter(prompt: str, filters: list=['all']):
@@ -43,7 +41,7 @@ def input_filter(prompt: str, filters: list=['all']):
         # Secrets include API tokens, Private Keys, High Entropy Strings, etc.
         scanners.append(Secrets(redact_mode="REDACT_PARTIAL"))
         # Only accepts English prompts.
-        scanners.append(LanguageIn(valid_languages=['en'], model=MODEL_LANGUAGE_IN))
+        scanners.append(LanguageIn(valid_languages=['en'], model=MODEL_LANGUAGE))
         # Scans the user prompt for known Prompt Injections.
         scanners.append(PromptInjection(threshold=0.92, model=MODEL_PROMPT_INJECTION))
         # Removes invisible Unicode characters.
@@ -93,7 +91,7 @@ def output_filter(output: str, filtered_prompt: str, filters: list=['all']):
         #scanners.append(Deanonymize(vault))
         scanners.append(Sensitive())
         # Only accepts responses in English
-        scanners.append(LanguageOut(valid_languages=['en'], model=MODEL_LANGUAGE_OUT))
+        scanners.append(LanguageOut(valid_languages=['en'], model=MODEL_LANGUAGE))
     elif 'deanonymize' in filters:
         try: # Not tested what happens if Deanonymize() is used, but Anonymize() is not.
             scanners.append(Deanonymize(vault))
