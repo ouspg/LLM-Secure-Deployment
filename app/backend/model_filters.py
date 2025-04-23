@@ -1,12 +1,16 @@
 '''
 Input & Output filters for the model.
 '''
+import torch
 from llm_guard import scan_output, scan_prompt
 from llm_guard.input_scanners import Anonymize, PromptInjection, TokenLimit, InvisibleText, Secrets
 from llm_guard.input_scanners import Language as LanguageIn
 from llm_guard.output_scanners import Deanonymize, Sensitive
 from llm_guard.output_scanners import Language as LanguageOut
 from llm_guard.vault import Vault
+
+torch.cuda.is_available = lambda : False
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 vault  = Vault()
 
