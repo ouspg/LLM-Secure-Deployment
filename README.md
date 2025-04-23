@@ -40,10 +40,10 @@ certificate onto the backend container after building it with Docker.
     ```console
     docker compose up -d
     ```
-4. Patiently wait for the build to finish *(can take more than an hour)*. After the build is complete, the 
+4. Patiently wait for the build to finish *(can take more than an hour with slow internet)*. After the build is complete, the 
 containers (`llm-secure-deployment-backend` and `llm-secure-deployment-frontend`) should be up and running.
 
-5. Navigate to `https://localhost` via a browser and you can use the application.
+5. Navigate to `https://<YOUR_IP_ADDRESS>` via a browser and you can use the application.
 
 > [!NOTE] 
 > - Generation of the first response message of the chatbot may take a while as the input and output filters will be downloaded after the first user message.
@@ -84,7 +84,7 @@ source .venv/bin/activate
     serve -s build -l 3006
     ```
 3. The frontend should now be running with its endpoint being on port `3006`. Navigate to 
-`http://localhost:3006` via a browser to use the application.
+`http://<YOUR_IP_ADDRESS>:3006` via a browser to use the application.
 
 ### <p align="center">Backend deployment</p><a name="backend-deployment"></a>
 1. In the root directory of the repository, install backend dependencies:
