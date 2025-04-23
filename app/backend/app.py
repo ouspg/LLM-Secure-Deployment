@@ -40,7 +40,7 @@ pipe = pipeline(
     "text-generation", 
     model=model,
     tokenizer=tokenizer,
-    device=0 # Cuda device ordinal, -1 for CPU
+    device=-1 # Cuda device ordinal, -1 for CPU
 )
 
 generation_args = {

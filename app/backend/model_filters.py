@@ -9,9 +9,6 @@ from llm_guard.output_scanners import Deanonymize, Sensitive
 from llm_guard.output_scanners import Language as LanguageOut
 from llm_guard.vault import Vault
 
-torch.cuda.is_available = lambda : False
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
 vault  = Vault()
 
 def input_filter(prompt: str, filters: list=['all']):
