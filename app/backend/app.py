@@ -24,7 +24,7 @@ app.add_middleware(
     allow_headers=["*"], # Not tested what specific headers are needed - should be restriced to only those.
 )
 
-max_memory_mapping = {0: "10GIB"} # GPU memory allocation optimization - optimized value(s) depend on your hardware.
+max_memory_mapping = {0: "5GIB"} # GPU memory allocation optimization - optimized value(s) depend on your hardware.
 
 print("Loading PHI-3 Mini model...")
 try: # Does this throw some exception if model is not in "models/phi3" or can transformers handle it?
