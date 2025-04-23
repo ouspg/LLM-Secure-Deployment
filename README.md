@@ -71,29 +71,10 @@ python -m venv .venv
 source .venv/bin/activate
 ```
 
-### <p align="center">Frontend deployment</p><a name="frontend-deployment"></a>
-1. Install frontend dependencies with npm:
-    ```console
-    cd app/frontend
-    ```
-    ```console
-    npm install
-    ```
-    ```console
-    npm install -g serve
-    ```
-
-2. Inside the `app/frontend/` directory, you can now build and serve the React frontend with:
-    ```console
-    npm run build
-    ```
-    ```console
-    serve -s build -l 3006
-    ```
-3. The frontend should now be running with its endpoint being on port `3006`. Navigate to 
-`http://<YOUR_IP_ADDRESS>:3006` via a browser to use the application.
-
 ### <p align="center">Backend deployment</p><a name="backend-deployment"></a>
+> [!IMPORTANT] 
+> If deploying the backend and frontend on the same machine, you need to adjust the configured CORS policy in `app/backend/app.py` accordingly: change the `allow_origins=origins` parameter on **line 21** to `allow_origins=[*]` to allow requests from the same origin.
+
 1. In the root directory of the repository, install backend dependencies:
     ```console
     pip install -r app/backend/requirements.txt
@@ -104,11 +85,43 @@ source .venv/bin/activate
     openssl req -x509 -newkey rsa:4096 -keyout app/backend/key.pem -out app/backend/cert.pem -days 365 -nodes
     ```
 
-3. Inside the `app/backend/` directory, you can now start the LLM-application with
+3. Navigate to the `app/backend` directory with:
+    ```console
+    cd app/backend
+    ```
+
+4. Inside the `app/backend/` directory, you can now start the LLM-application with
     ```console
     python app.py
     ```
-4. The backend should now be running with its endpoint being on port `8000`.
+5. The backend should now be running with its endpoint being on port `8000`.
+
+
+### <p align="center">Frontend deployment</p><a name="frontend-deployment"></a>
+1. Change the URL in `app/frontend/src/Elements/ChatBot.jsx` on **line 27** to match the URL of the backend API.
+
+2. Install frontend dependencies with npm:
+    ```console
+    cd app/frontend
+    ```
+    ```console
+    npm install
+    ```
+    ```console
+    npm install -g serve
+    ```
+
+3. Inside the `app/frontend/` directory, you can now build and serve the React frontend with:
+    ```console
+    npm run build
+    ```
+    ```console
+    serve -s build -l 3006
+    ```
+4. The frontend should now be running with its endpoint being on port `3006`. Navigate to 
+`http://<YOUR_IP_ADDRESS>:3006` via a browser to use the application.
+
+
 
 ## <p align="center">Docker Scout</p><a name="scout"></a>
 
@@ -130,7 +143,7 @@ To generate an SBOM of the built environment:
 
 1. Install [sbom](https://docs.docker.com/scout/how-tos/view-create-sboms/) plugin for Docker.
 
-2. Use the following command to generate a human readable SBOM to the console (more instrucitons of usage can be found [here](https://docs.docker.com/scout/how-tos/view-create-sboms/)):
+2. Use the following command to generate a human readable SBOM to the console (more instructions of usage can be found [here](https://docs.docker.com/scout/how-tos/view-create-sboms/)):
     ```console
     docker scout sbom --format list IMAGE_ID
     ```
