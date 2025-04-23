@@ -24,7 +24,7 @@ A more robust alternative would be to, for example, mount a volume containing a 
 certificate onto the backend container after building it with Docker. 
 
 > [!IMPORTANT] 
-> The application is configured to be served at 86.50.253.176. In order to deploy the application from other domains, the following variables need to be changed accordingly:
+> The application is configured to be served at **https://86.50.253.176**. In order to deploy the application from other domains, the following variables need to be changed accordingly:
 > - `server_name` variables *(two)* in `app/frontend/nginx.conf`.
 > - IP address in `compose.yaml` **line 29**.
 > - Domain in `app/frontend/src/Elements/ChatBot.jsx` **line 27**.
