@@ -5,15 +5,9 @@ from llm_guard import scan_output, scan_prompt
 from llm_guard.input_scanners import Anonymize, PromptInjection, TokenLimit, InvisibleText, Secrets
 from llm_guard.input_scanners import Language as LanguageIn
 from llm_guard.input_scanners.language import DEFAULT_MODEL as MODEL_LANGUAGE_IN
-#from llm_guard.input_scanners.anonymize import DEFAULT_MODEL as MODEL_ANONYMIZE
-from llm_guard.input_scanners.prompt_injection import DEFAULT_MODEL as MODEL_PROMPT_INJECTION
-from llm_guard.input_scanners.token_limit import DEFAULT_MODEL as MODEL_TOKEN_LIMIT
-from llm_guard.input_scanners.invisible_text import DEFAULT_MODEL as MODEL_INVISIBLE_TEXT
-from llm_guard.input_scanners.secrets import DEFAULT_MODEL as MODEL_SECRETS
+from llm_guard.input_scanners.prompt_injection import V2_MODEL as MODEL_PROMPT_INJECTION
 from llm_guard.output_scanners import Deanonymize, Sensitive
 from llm_guard.output_scanners import Language as LanguageOut
-#from llm_guard.output_scanners.deanonymize import DEFAULT_MODEL as MODEL_DEANONYMIZE
-from llm_guard.output_scanners.sensitive import DEFAULT_MODEL as MODEL_SENSITIVE
 from llm_guard.output_scanners.language import DEFAULT_MODEL as MODEL_LANGUAGE_OUT
 from llm_guard.vault import Vault
 
@@ -22,12 +16,6 @@ vault  = Vault()
 MODEL_LANGUAGE_IN["pipeline_kwargs"]["device"] = -1
 MODEL_LANGUAGE_OUT["pipeline_kwargs"]["device"] = -1
 MODEL_PROMPT_INJECTION["pipeline_kwargs"]["device"] = -1
-MODEL_TOKEN_LIMIT["pipeline_kwargs"]["device"] = -1
-MODEL_INVISIBLE_TEXT["pipeline_kwargs"]["device"] = -1
-MODEL_SECRETS["pipeline_kwargs"]["device"] = -1
-#MODEL_DEANONYMIZE["pipeline_kwargs"]["device"] = -1
-#MODEL_ANONYMIZE["pipeline_kwargs"]["device"] = -1
-MODEL_SENSITIVE["pipeline_kwargs"]["device"] = -1
 
 def input_filter(prompt: str, filters: list=['all']):
     '''
@@ -49,17 +37,17 @@ def input_filter(prompt: str, filters: list=['all']):
     scanners = []
     if 'all' in filters:
         # Enforces a strict token limit on user prompts.
-        scanners.append(TokenLimit(limit=500), model=MODEL_TOKEN_LIMIT)
+        scanners.append(TokenLimit(limit=500))
         # Redacts PII from user prompts (very experimental).
         #scanners.append(Anonymize(vault))
         # Secrets include API tokens, Private Keys, High Entropy Strings, etc.
-        scanners.append(Secrets(redact_mode="REDACT_PARTIAL", model=MODEL_SECRETS))
+        scanners.append(Secrets(redact_mode="REDACT_PARTIAL"))
         # Only accepts English prompts.
         scanners.append(LanguageIn(valid_languages=['en'], model=MODEL_LANGUAGE_IN))
         # Scans the user prompt for known Prompt Injections.
         scanners.append(PromptInjection(threshold=0.92, model=MODEL_PROMPT_INJECTION))
         # Removes invisible Unicode characters.
-        scanners.append(InvisibleText(model=MODEL_INVISIBLE_TEXT))
+        scanners.append(InvisibleText())
     elif 'token_limit' in filters:
         scanners.append(TokenLimit(limit=500))
     elif 'anonymize' in filters:
@@ -103,7 +91,7 @@ def output_filter(output: str, filtered_prompt: str, filters: list=['all']):
     if 'all'in filters:
         # Adds redacted PII back to model response if applicable.
         #scanners.append(Deanonymize(vault))
-        scanners.append(Sensitive(model=MODEL_SENSITIVE))
+        scanners.append(Sensitive())
         # Only accepts responses in English
         scanners.append(LanguageOut(valid_languages=['en'], model=MODEL_LANGUAGE_OUT))
     elif 'deanonymize' in filters:
