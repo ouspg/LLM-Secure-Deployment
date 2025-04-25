@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "LLM-Secure-Deployment",
+  "name": "Secure Deployment Practices For LLM-Applications",
   "icons": [
     {
       "src": "favicon.ico",
