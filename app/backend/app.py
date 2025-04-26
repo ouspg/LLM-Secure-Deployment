@@ -24,6 +24,7 @@ app.add_middleware(
     allow_headers=["*"], # Not tested what specific headers are needed - should be restriced to only those.
 )
 
+# PHI-3 Mini Model
 
 # print("Loading PHI-3 Mini model...")
 # try: # Does this throw some exception if model is not in "models/phi3" or can transformers handle it?
@@ -34,6 +35,8 @@ app.add_middleware(
 #     model_download("models/phi-3/", "microsoft/Phi-3-mini-4k-instruct")
 #     model = AutoModelForCausalLM.from_pretrained("models/phi-3/")
 #     tokenizer = AutoTokenizer.from_pretrained("models/phi-3/")
+
+# PHI-4 Mini Model
 
 print("Loading PHI-4 Mini model...")
 try: # Does this throw some exception if model is not in "models/phi3" or can transformers handle it?
