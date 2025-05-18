@@ -25,9 +25,10 @@ certificate onto the backend container after building it with Docker.
 
 > [!IMPORTANT] 
 > The application is configured to be served at **https://86.50.253.176**. In order to deploy the application from other domains, the following variables need to be changed accordingly:
-> - `server_name` variables *(two)* in `app/frontend/nginx.conf`.
-> - IP address in `compose.yaml` **line 29**.
-> - Domain in `app/frontend/src/Elements/ChatBot.jsx` **line 27**.
+> - Change `server_name` variables *(two)* in `app/frontend/nginx.conf` to your public IP address or domain name.
+> - Change `set_real_ip_from` in `app/frontend/nginx.conf` to the CIDR range of trusted addresses.
+> - Change the IP address in `compose.yaml` **line 29**.
+> - Change the URL in `app/frontend/src/Elements/ChatBot.jsx` **line 27**.
 > - Your domain needs to be added to the list of allowed origins in `app/frontend/nginx.conf` **line 53**
 
 1. In the root directory of the repository, generate a self-signed SSL certificate:
