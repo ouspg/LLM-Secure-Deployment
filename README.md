@@ -1,5 +1,5 @@
 # <p align="center">Secure Deployment Practices for Large Language Model Applications</p>
-This repository contains the codebase for Mikko Lempinen's Master's Thesis titled [**Secure Deployment Practices for Large Language Model Applications**](https://urn.fi/URN:NBN:fi:oulu-202506124420).
+This repository contains the codebase for Mikko Lempinen's Master's Thesis: [**Secure Deployment Practices for Large Language Model Applications**](https://urn.fi/URN:NBN:fi:oulu-202506124420).
 
 ## <p align="center">Table of Contents</p>
 
